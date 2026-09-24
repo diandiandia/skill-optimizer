@@ -46,7 +46,8 @@ MEM_DIR=$(find "$HOME/.claude/projects" -maxdepth 2 -type d -name memory | head 
    recall_regression_set.json`——已知真实缺陷语料的发现力对照输入（评估
    判据：本周期缺陷清单是否覆盖回归集条目的 defect_class/expected_hypothesis
    方向；未覆盖的条目须显式裁除或排队，同 DDL 消化条款形态）；
-3. 目标仓 `$DEV_REPO/lessons/` 仅作战役期历史追溯（W5/W6 档案），
+3. 目标仓 `$DEV_REPO/assets/lessons/` 仅作战役期历史追溯（W5/W6 档案,
+   v3.34 分层后从 `$DEV_REPO/lessons/` 迁入）,
    不是新教训的读入口。
 读完才允许写缺陷清单——每条缺陷的「案例支撑来源」必须指向某项目
 lessons.md 的具体条目（"某项目 lessons.md 第 N 条"），无条目的候选缺陷
@@ -125,7 +126,8 @@ lessons.md 的具体条目（"某项目 lessons.md 第 N 条"），无条目的�
 - 新增 `tests/test_v3XX.py`：每个 SWR 至少一用例（含反面分支——如
   建议不自动改写/无约束零输出）；
 - 全量回归全绿；
-- **旧队列复跑零新增告警**：代表项目队列（gpac/freetype/av 等）跑
+- **旧队列复跑零新增告警**：代表项目队列（以盘上实存的已审项目为准——
+  v3.45/v3.46 实测集 haproxy/hadoop/keycloak/quickjs/caddy 5/5）跑
   assert_ledger，violations 中 blocking 必须为 0，warn 必须与变更前一致；
 - `signature_lib.py selfcheck <非 fixture 项目>` 资产通用性不回退。
 
@@ -133,7 +135,10 @@ lessons.md 的具体条目（"某项目 lessons.md 第 N 条"），无条目的�
 
 1. `bash install.sh`（自带全量测试）→ installed 副本验证新机制在位
    （TOOLING/关键函数 hasattr）；
-2. `diff` dev/installed 文件列表一致（排除 pycache）；
+2. `diff` dev/installed **运行面**（src/tools/assets/tests/SKILL.md/README/
+   docs/legacy/docs/history）文件列表+md5 一致（排除 pycache）；docs/design
+   为 dev-only 设计件, install.sh 不拷贝——全树 diff 必然报 design 差异,
+   不得误判为漂移（v3.46 实录）;
 3. conventional commits 分组：
    - `vX.YY C0: 设计五件套 ...`
    - `vX.YY P1-Px: 实现 ...`
@@ -186,8 +191,9 @@ NEEDS_REVIEW 不伪造实证，v3.15 av 验收实录）。验收审计的 lesson
 4. **知识复用率趋零**（教训库/矩阵/先例对新审计零贡献）
 5. **兼容性债务累积**（旧队列复跑告警持续增长）
 
-对照参照系：42 个版本（v3.1-v3.42）阶段骨架零改动、601 测试全绿、
-12 项目教训库复用——五信号当前均未出现，架构处于收敛期而非极限期。
+对照参照系（v3.42 基线）：42 个版本（v3.1-v3.42）阶段骨架零改动、601 测试
+全绿、12 项目教训库复用；v3.46 复核：46 版本/664 测试/13 项目、旧队列 5/5——
+五信号仍均未出现，架构处于收敛期而非极限期。
 机制冻结实验（v3.43）判据：知识补种驱动发现力提升 = 分层正确。
 
 ## 核心纪律速查（十条）
